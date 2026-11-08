@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AURUM - Parfums d'Exception</title>
+<meta name="description" content="A niche perfume house. Built following 'The 5 Sites That Make AI-Built Websites Look Expensive' - Anime.js for all motion, spring easing, scroll-triggered moments, under 400ms.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e0d0b; --ink:#efe9df; --dim:rgba(239,233,223,.55); --gold:#c8a24e;
+  --line:rgba(239,233,223,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:Inter,sans-serif;font-weight:300;overflow-x:hidden}
+.serif{font-family:"Cormorant Garamond",serif}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+nav{position:fixed;top:0;left:0;right:0;z-index:50;padding:22px 0;border-bottom:1px solid transparent;transition:border-color .3s,background .3s}
+nav.scrolled{background:rgba(14,13,11,.82);backdrop-filter:blur(14px);border-color:var(--line)}
+nav .wrap{display:flex;justify-content:space-between;align-items:center}
+.logo{font-family:"Cormorant Garamond",serif;font-size:24px;letter-spacing:.35em}
+nav ul{display:flex;gap:34px;list-style:none}
+nav a{color:var(--dim);text-decoration:none;font-size:12px;letter-spacing:.22em;text-transform:uppercase;transition:color .25s}
+nav a:hover{color:var(--gold)}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;position:relative}
+.hero .eyebrow{font-size:11px;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:28px}
+.hero h1{font-size:clamp(64px,12vw,160px);font-weight:400;line-height:.95;overflow:hidden}
+.hero h1 .ch{display:inline-block;transform:translateY(110%)}
+.hero p.sub{margin-top:30px;color:var(--dim);max-width:440px;font-size:15px;line-height:1.8;opacity:0}
+.bottle{margin:56px 0 0;opacity:0}
+.scroll-hint{position:absolute;bottom:34px;font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--dim);opacity:0}
+section{padding:clamp(90px,11vw,160px) 0;border-top:1px solid var(--line)}
+.sec-head{display:flex;align-items:baseline;gap:26px;margin-bottom:70px}
+.sec-head .num{font-family:"Cormorant Garamond",serif;font-style:italic;color:var(--gold);font-size:20px}
+.sec-head h2{font-size:clamp(30px,4vw,46px);font-weight:400}
+.reveal{opacity:0;transform:translateY(28px)}
+.notes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;background:var(--line)}
+.note{background:var(--bg);padding:44px 34px;transition:background .35s}
+.note:hover{background:#141310}
+.note .idx{font-size:11px;letter-spacing:.3em;color:var(--gold)}
+.note h3{font-family:"Cormorant Garamond",serif;font-size:30px;font-weight:500;margin:16px 0 12px}
+.note p{color:var(--dim);font-size:14px;line-height:1.8}
+.counter-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;text-align:center}
+.counter .val{font-family:"Cormorant Garamond",serif;font-size:clamp(48px,6vw,84px);color:var(--gold)}
+.counter .lbl{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-top:8px}
+.svggroup{display:flex;justify-content:center}
+footer{padding:60px 0;text-align:center;color:var(--dim);font-size:11px;letter-spacing:.3em;text-transform:uppercase;border-top:1px solid var(--line)}
+.guide-tag{position:fixed;bottom:16px;left:16px;z-index:60;font-size:10px;letter-spacing:.14em;color:var(--dim);background:rgba(14,13,11,.7);border:1px solid var(--line);padding:8px 12px;border-radius:99px;backdrop-filter:blur(8px)}
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  .hero h1 .ch{transform:none}.hero p.sub,.bottle,.scroll-hint,.reveal{opacity:1!important;transform:none!important}
+}
+</style>
+</head>
+<body>
+<nav id="nav"><div class="wrap">
+  <div class="logo">AURUM</div>
+  <ul><li><a href="#maison">Maison</a></li><li><a href="#notes">Notes</a></li><li><a href="#atelier">Atelier</a></li></ul>
+</div></nav>
+
+<header class="hero">
+  <div class="eyebrow reveal-none">Maison fondee a Grasse &middot; 1927</div>
+  <h1 id="heroTitle" class="serif" aria-label="AURUM"></h1>
+  <p class="sub" id="heroSub">Four essences, drawn from a single hectare of jasmine. Nothing else. Nothing louder.</p>
+  <svg class="bottle" id="bottleSvg" width="120" height="220" viewBox="0 0 120 220" fill="none" aria-hidden="true">
+    <path id="bottlePath" d="M50 10 h20 v18 h6 v22 c18 8 30 26 30 48 v90 a22 22 0 0 1 -22 22 h-48 a22 22 0 0 1 -22 -22 v-90 c0-22 12-40 30-48 v-22 h6 z" stroke="#c8a24e" stroke-width="1.5"/>
+  </svg>
+  <div class="scroll-hint" id="scrollHint">Scroll</div>
+</header>
+
+<section id="maison">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="num">01</span><h2 class="serif">The Maison</h2></div>
+    <div class="counter-row">
+      <div class="counter reveal"><div class="val" data-count="98">0</div><div class="lbl">Harvests</div></div>
+      <div class="counter reveal"><div class="val" data-count="1">0</div><div class="lbl">Hectare</div></div>
+      <div class="counter reveal"><div class="val" data-count="4">0</div><div class="lbl">Essences</div></div>
+      <div class="counter reveal"><div class="val" data-count="700">0</div><div class="lbl">Bottles a year</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="notes">
+  <div class="wrap">
+    <div class="sec-head reveal"><span class="num">02</span><h2 class="serif">The Notes</h2></div>
+    <div class="notes-grid">
+      <div class="note reveal"><div class="idx">No. I</div><h3>Jasmine de Nuit</h3><p>Picked before dawn, while the petals still hold the cold. Green, almost metallic at first breath.</p></div>
+      <div class="note reveal"><div class="idx">No. II</div><h3>Cuir d'Or</h3><p>Jasmine absolute rested against tanned birch. The warmth of a saddle room in high summer.</p></div>
+      <div class="note reveal"><div class="idx">No. III</div><h3>Pluie Fine</h3><p>The hectare after rain. Wet limestone, crushed stems, the mineral edge of a coming storm.</p></div>
+      <div class="note reveal"><div class="idx">No. IV</div><h3>Racine</h3><p>Vetiver from the field's shaded border. Earthy, patient, the base every other note stands on.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="atelier">
+  <div class="wrap" style="text-align:center">
+    <div class="sec-head reveal" style="justify-content:center"><span class="num">03</span><h2 class="serif">The Atelier</h2></div>
+    <p class="reveal" style="color:var(--dim);max-width:520px;margin:0 auto;line-height:1.9;font-size:15px">Every bottle is filled by hand and numbered. When the harvest is gone, the year is over. We do not blend last year's jasmine into this year's promise.</p>
+    <div class="reveal" style="margin-top:44px"><a href="#" style="color:var(--gold);border:1px solid var(--gold);padding:16px 42px;font-size:11px;letter-spacing:.35em;text-transform:uppercase;text-decoration:none;display:inline-block;transition:background .3s,color .3s" onmouseover="this.style.background='#c8a24e';this.style.color='#0e0d0b'" onmouseout="this.style.background='transparent';this.style.color='#c8a24e'">Reserve No. IV</a></div>
+  </div>
+</section>
+
+<footer>Aurum Parfums &middot; Grasse &middot; A study build</footer>
+<div class="guide-tag">Built from guide 01 &middot; Anime.js &middot; springs, scroll reveals, &lt;400ms</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.2/anime.min.js"></script>
+<script>
+(function(){
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Split hero title into chars
+  const h1 = document.getElementById('heroTitle');
+  'AURUM'.split('').forEach(c=>{const s=document.createElement('span');s.className='ch';s.textContent=c;h1.appendChild(s);});
+  const nav=document.getElementById('nav');
+  addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40),{passive:true});
+
+  if(!reduced && window.anime){
+    const tl = anime.timeline({easing:'spring(1, 80, 12, 0)'});
+    tl.add({targets:'.hero h1 .ch',translateY:['110%','0%'],delay:anime.stagger(60),duration:380})
+      .add({targets:'#heroSub',opacity:[0,1],translateY:[16,0],duration:350},'-=200')
+      .add({targets:'#bottleSvg',opacity:[0,1],duration:300},'-=250')
+      .add({targets:'#bottlePath',strokeDashoffset:[anime.setDashoffset,0],duration:900,easing:'easeInOutSine'},'-=300')
+      .add({targets:'#scrollHint',opacity:[0,1],duration:300});
+  } else {
+    document.querySelectorAll('.hero h1 .ch').forEach(e=>e.style.transform='none');
+    ['heroSub','bottleSvg','scrollHint'].forEach(id=>document.getElementById(id).style.opacity=1);
+  }
+
+  // Scroll reveals
+  const io = new IntersectionObserver(entries=>{
+    entries.forEach(en=>{
+      if(!en.isIntersecting)return;
+      const el=en.target; io.unobserve(el);
+      if(!reduced && window.anime){
+        anime({targets:el,opacity:[0,1],translateY:[28,0],duration:380,easing:'spring(1, 80, 14, 0)'});
+        el.querySelectorAll('[data-count]').forEach(c=>{
+          anime({targets:{v:0},v:+c.dataset.count,round:1,duration:900,easing:'easeOutExpo',update:a=>c.textContent=a.animations[0].currentValue});
+        });
+      } else {
+        el.style.opacity=1; el.style.transform='none';
+        el.querySelectorAll('[data-count]').forEach(c=>c.textContent=c.dataset.count);
+      }
+    });
+  },{threshold:.25});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+})();
+</script>
+</body>
+</html>
