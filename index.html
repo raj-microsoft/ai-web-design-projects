@@ -32,18 +32,18 @@ footer{margin-top:64px;font-size:12px;color:rgba(250,250,250,.35)}
 </div>
 <script>
 const P=[
-["01","AURUM - Parfums d'Exception","Guide 01: named libraries, Anime.js springs, scroll reveals under 400ms","01-aurum/",true],
-["02","NOCTURNE - Listening Bar","Guide 02: the $10K setup - motion-first, premium components","02-nocturne/",false],
-["03","MOSAIC - Moodboard Studio","Guide 03: built in the Google-AI-tools spirit - clean UI, generated feel","03-mosaic/",false],
-["04","WADDEN - A Coastal Sketchbook","Guide 04: polaroids, SVG acrylic pages, real page turns","04-wadden/",false],
-["05","ORBIT - A Product Film in Frames","Guide 05: Claude Design + HyperFrames pipeline, frame-sequenced motion","05-orbit/",false],
-["06","DOT - A 30-Second Film in Code","Guide 06: every scene animated in code, score in WebAudio","06-dot/",false],
-["07","AXIOM-1 - Scroll-Exploded Chip","Guide 07: scroll-scrubbed assembled-to-exploded product view","07-axiom/",false],
-["08","TIDE - A Harbour That Wakes","Guide 08: scroll-tied video-style hero, canvas frames","08-tide/",false],
-["09","SEVEN STYLES - Motion Loops","Guide 09/16: Janus Tiu's seven motion styles, all in canvas","09-seven-styles/",false],
-["10","FORGE - Template Studio","Guide 17: the Hyliox prompt, executed to the letter","10-forge/",false],
-["11","PROMPTBOOK - A Tiny Prompt Library","Guide 23: Budarina-style curated prompts with copy buttons","11-promptbook/",false],
-["12","GRIMHAVEN - A Dark Fantasy Theme","Guide 24: Divya-style themed world, original IP","12-grimhaven/",false]
+["01","AURUM - Parfums d'Exception","Guide 01: named libraries, Anime.js springs, scroll reveals under 400ms",01-aurum/",true],
+["02","NOCTURNE - Listening Bar","Guide 02: the $10K setup - motion-first, premium components","02-nocturne/",true],
+["03","MOSAIC - Moodboard Studio","Guide 03: built in the Google-AI-tools spirit - clean UI, generated feel","03-mosaic/",true],
+["04","WADDEN - A Coastal Sketchbook","Guide 04: polaroids, SVG acrylic pages, real page turns","04-wadden/",true],
+["05","ORBIT - A Product Film in Frames","Guide 05: Claude Design + HyperFrames pipeline, frame-sequenced motion","05-orbit/",true],
+["06","DOT - A 30-Second Film in Code","Guide 06: every scene animated in code, score in WebAudio","06-dot/",true],
+["07","AXIOM-1 - Scroll-Exploded Chip","Guide 07: scroll-scrubbed assembled-to-exploded product view","07-axiom/",true],
+["08","TIDE - A Harbour That Wakes","Guide 08: scroll-tied video-style hero, canvas frames","08-tide/",true],
+["09","SEVEN STYLES - Motion Loops","Guide 09/16: Janus Tiu's seven motion styles, all in canvas","09-seven-styles/",true],
+["10","FORGE - Template Studio","Guide 17: the Hyliox prompt, executed to the letter","10-forge/",true],
+["11","PROMPTBOOK - A Tiny Prompt Library","Guide 23: Budarina-style curated prompts with copy buttons","11-promptbook/",true],
+["12","GRIMHAVEN - A Dark Fantasy Theme","Guide 24: Divya-style themed world, original IP","12-grimhaven/",true]
 ];
 document.getElementById('grid').innerHTML=P.map(p=>
 `<a class="card ${p[4]?'':'soon'}" href="${p[4]?p[3]:'#'}"><span class="num">${p[0]}</span><span><h2>${p[1]}</h2><p>${p[2]}</p></span><span class="arrow">${p[4]?'&rarr;':'soon'}</span></a>`).join('');

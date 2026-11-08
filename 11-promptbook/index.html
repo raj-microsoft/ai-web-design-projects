@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PROMPTBOOK - twelve prompts worth keeping</title>
+<meta name="description" content="A tiny curated prompt library with copy buttons. Built following the Budarina prompt-collection guide: categories, one-liners, copy and go.">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f1ea;--ink:#1c1a15;--dim:rgba(28,26,21,.6);--acc:#b5441f;--card:#fbf9f4;--line:rgba(28,26,21,.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:Inter,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px}
+header{padding:clamp(60px,9vw,100px) 0 40px;text-align:center}
+h1{font-family:Fraunces,serif;font-size:clamp(40px,6vw,68px);font-weight:400}
+h1 em{font-style:italic;color:var(--acc)}
+header p{color:var(--dim);margin-top:14px}
+.cats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:30px 0 44px}
+.cats button{border:1px solid var(--line);background:transparent;border-radius:99px;padding:9px 20px;font:inherit;font-size:13px;font-weight:500;cursor:pointer;transition:all .25s;color:var(--dim)}
+.cats button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.plist{display:grid;gap:14px;padding-bottom:80px}
+.p{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;transition:transform .25s,box-shadow .25s}
+.p:hover{transform:translateY(-2px);box-shadow:0 14px 30px -18px rgba(28,26,21,.35)}
+.p .top{display:flex;justify-content:space-between;align-items:baseline;gap:14px}
+.p h2{font-size:17px;font-weight:600}
+.p .cat{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--acc);white-space:nowrap}
+.p .one{color:var(--dim);font-size:14px;margin:6px 0 16px}
+.p pre{font-family:"JetBrains Mono",monospace;font-size:12.5px;line-height:1.7;background:rgba(28,26,21,.045);border:1px solid var(--line);border-radius:10px;padding:16px;white-space:pre-wrap}
+.copy{margin-top:12px;border:1px solid var(--ink);background:var(--ink);color:var(--bg);border-radius:99px;padding:9px 22px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .25s}
+.copy.done{background:var(--acc);border-color:var(--acc)}
+footer{text-align:center;padding:36px;color:var(--dim);font-size:12px;letter-spacing:.15em;border-top:1px solid var(--line)}
+.guide-tag{position:fixed;bottom:16px;left:16px;z-index:60;font-size:10px;letter-spacing:.1em;color:var(--dim);background:rgba(244,241,234,.85);border:1px solid var(--line);padding:8px 12px;border-radius:99px;backdrop-filter:blur(8px)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>PROMPT<em>BOOK</em></h1>
+  <p>Twelve prompts that survived contact with real projects. Copy, paste, keep the good ones.</p>
+  <div class="cats" id="cats"></div>
+</header>
+<div class="plist" id="plist"></div>
+</div>
+<footer>PROMPTBOOK &middot; a study build</footer>
+<div class="guide-tag">Built from guide 23 &middot; curated prompts, copy buttons, categories</div>
+<script>
+(function(){
+const P=[
+["web","The library name-drop","Stops the AI hand-rolling animation.","Build this page and use Anime.js for all animation.\nDo not write custom keyframes. Stagger the hero text in on load.\nKeep every animation under 400ms. Respect prefers-reduced-motion."],
+["web","One section at a time","The review loop that saves the whole build.","Start with the hero section only. Show me that before you build the rest.\nWait for my OK, then continue section by section."],
+["web","Design tokens first","Taste as a config file, not a vibe.","Before any markup, define the design system as CSS custom properties:\n3 colors max, 2 fonts, a spacing scale of 4 steps, 1 border radius.\nUse nothing outside the system."],
+["web","The expensive-feel pass","Springs, not slides.","Rewrite every transition in this page to use spring physics.\nNothing linear. Nothing over 400ms. Two or three animated moments per page, no more."],
+["image","Editorial product light","Apple-grade product shots from one sentence.","Ultra-premium product photography of [subject], matte finish, single soft key light\nfrom the left, deep shadow falloff, seamless dark background, controlled reflections,\n85mm lens, f/1.8, no text, no logos, photorealistic."],
+["image","Palette-locked scene","Keeps a series of images on-brand.","Generate this scene using only these five colors: [palette].\nFlat fills, no gradients outside the palette, paper grain texture, slightly uneven edges."],
+["image","The sketchbook style","Acrylic marker in code-friendly terms.","Inline SVG illustration in acrylic marker style: flat fills, visible paper grain,\nuneven hand-drawn edges, limited palette taken from the reference.\nSimplify landmarks into shapes. Do not trace the photo."],
+["video","Scroll-scrub hero","The $15K motion-site trick in one prompt.","Generate a smooth transition from frame A to frame B: slow, cinematic,\ncomponents gently separating in 3D space. I will wire playback to scroll position."],
+["video","Loop discipline","Short loops that actually loop.","Make it under 8 seconds, vertical, and seamless: the last frame must match the first.\nOne idea per loop. No camera cuts."],
+["code","Fix one page","Surgical redraws without losing the good pages.","Redraw the [name] section only. [What is wrong].\nKeep the palette and style of the other sections. Do not change any other file."],
+["code","The janitor","Cleans AI output before it calcifies.","Review this file for: unused CSS, dead JS, duplicated rules, mystery values.\nRemove what is dead, name what is magic, change nothing that renders."],
+["code","Ship check","The last prompt before deploy.","Audit this page for: broken anchors, missing alt text, prefers-reduced-motion,\nconsole errors, layout below 380px wide. Report, then fix only what I approve."]
+];
+const cats=[["all","All"],["web","Web"],["image","Image"],["video","Video"],["code","Code"]];
+const catsEl=document.getElementById('cats'),list=document.getElementById('plist');
+cats.forEach(([k,l],i)=>{
+  const b=document.createElement('button');b.textContent=l;if(i===0)b.classList.add('on');
+  b.onclick=()=>{catsEl.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on');render(k);};
+  catsEl.appendChild(b);
+});
+function render(cat){
+  list.innerHTML='';
+  P.filter(p=>cat==='all'||p[0]===cat).forEach(p=>{
+    const d=document.createElement('div');d.className='p';
+    d.innerHTML=`<div class="top"><h2>${p[1]}</h2><span class="cat">${p[0]}</span></div>
+      <div class="one">${p[2]}</div><pre></pre>
+      <button class="copy">Copy prompt</button>`;
+    d.querySelector('pre').textContent=p[3];
+    const btn=d.querySelector('.copy');
+    btn.onclick=()=>{navigator.clipboard.writeText(p[3]).then(()=>{
+      btn.textContent='Copied';btn.classList.add('done');
+      setTimeout(()=>{btn.textContent='Copy prompt';btn.classList.remove('done');},1600);});};
+    list.appendChild(d);
+  });
+}
+render('all');
+})();
+</script>
+</body>
+</html>
