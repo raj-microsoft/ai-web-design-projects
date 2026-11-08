@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DOT - a 30 second film, written in code</title>
+<meta name="description" content="Every scene animated in code, score in WebAudio, rendered live. Built following the 'Making the dots film' guide.">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#0c0c0c;color:#f5f4f0;font-family:"Space Grotesk",sans-serif;overflow:hidden}
+.stage{position:fixed;inset:0;display:grid;place-items:center}
+canvas{width:min(92vw,640px);aspect-ratio:1;border-radius:14px;background:#141414;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+.play{position:fixed;inset:0;display:grid;place-items:center;background:rgba(12,12,12,.7);z-index:10;backdrop-filter:blur(6px);cursor:pointer;transition:opacity .5s}
+.play.hide{opacity:0;pointer-events:none}
+.play .btn{text-align:center}
+.play .tri{width:88px;height:88px;border-radius:50%;border:1.5px solid #f5f4f0;display:grid;place-items:center;margin:0 auto 18px;transition:transform .3s cubic-bezier(.2,.9,.3,1.5),background .3s}
+.play:hover .tri{transform:scale(1.1);background:rgba(245,244,240,.1)}
+.play p{color:rgba(245,244,240,.6);font-size:13px;letter-spacing:.25em;text-transform:uppercase}
+.cap{position:fixed;bottom:6vh;left:0;right:0;text-align:center;font-size:clamp(18px,3vw,28px);font-weight:500;opacity:0;transition:opacity .3s;padding:0 20px}
+.tl{position:fixed;bottom:3vh;left:50%;transform:translateX(-50%);width:min(92vw,640px);height:2px;background:rgba(245,244,240,.15)}
+.tl i{display:block;height:100%;background:#f5f4f0;width:0}
+.replay{position:fixed;top:24px;right:24px;background:none;border:1px solid rgba(245,244,240,.3);color:#f5f4f0;border-radius:99px;padding:10px 22px;font-family:inherit;font-size:12px;letter-spacing:.2em;cursor:pointer;opacity:0;transition:opacity .4s}
+.replay.show{opacity:1}
+.guide-tag{position:fixed;top:16px;left:16px;z-index:11;font-size:10px;letter-spacing:.1em;color:rgba(245,244,240,.5);background:rgba(12,12,12,.6);border:1px solid rgba(245,244,240,.15);padding:8px 12px;border-radius:99px}
+</style>
+</head>
+<body>
+<div class="stage"><canvas id="cv" width="1080" height="1080"></canvas></div>
+<div class="play" id="play"><div class="btn">
+  <div class="tri"><svg width="26" height="30" viewBox="0 0 26 30"><path d="M2 2 L24 15 L2 28 Z" fill="#f5f4f0"/></svg></div>
+  <p>Play the film &middot; 30s &middot; sound on</p>
+</div></div>
+<div class="cap" id="cap"></div>
+<div class="tl"><i id="tli"></i></div>
+<button class="replay" id="replay">REPLAY</button>
+<div class="guide-tag">Built from guide 06 &middot; scenes in code, score in WebAudio, rendered live</div>
+<script>
+(function(){
+const cv=document.getElementById('cv'),g=cv.getContext('2d');
+const cap=document.getElementById('cap'),tli=document.getElementById('tli');
+const DUR=30000;
+const scenes=[
+ {t0:0,   t1:3500, cap:"This is your dot."},
+ {t0:3500,t1:7600, cap:"It learns how you work."},
+ {t0:7600,t1:13700,cap:"You log off. It keeps going."},
+ {t0:13700,t1:19700,cap:"It catches what slipped."},
+ {t0:19700,t1:24600,cap:"Name it. Make it yours."},
+ {t0:24600,t1:30000,cap:"DOT \u00b7 Always on it."}
+];
+// tiny synth score, 120 BPM, minor pad + pulse (WebAudio)
+let AC;
+function score(){
+  AC=new (window.AudioContext||window.webkitAudioContext)();
+  const master=AC.createGain();master.gain.value=.16;master.connect(AC.destination);
+  const beat=60/120;
+  for(let b=0;b<40;b++){
+    const t=AC.currentTime+.05+b*beat;
+    const o=AC.createOscillator(),gn=AC.createGain();
+    o.type='sine';o.frequency.value=b%4===0?90:60;
+    gn.gain.setValueAtTime(.5,t);gn.gain.exponentialRampToValueAtTime(.001,t+.18);
+    o.connect(gn);gn.connect(master);o.start(t);o.stop(t+.2);
+  }
+  const notes=[220,261.6,329.6,261.6,196,246.9,293.7,246.9];
+  notes.forEach((f,i)=>{
+    const t=AC.currentTime+.05+i*beat*2;
+    const o=AC.createOscillator(),gn=AC.createGain();
+    o.type='triangle';o.frequency.value=f;
+    gn.gain.setValueAtTime(0,t);gn.gain.linearRampToValueAtTime(.22,t+.06);
+    gn.gain.exponentialRampToValueAtTime(.001,t+beat*2);
+    o.connect(gn);gn.connect(master);o.start(t);o.stop(t+beat*2+.05);
+  });
+}
+const ease=t=>t<0?0:t>1?1:1-Math.pow(1-t,3);
+let start=null;
+function frame(now){
+  if(start===null)start=now;
+  const el=now-start, W=1080, cx=540, cy=540;
+  g.fillStyle='#141414';g.fillRect(0,0,W,W);
+  const s=scenes.find(s=>el>=s.t0&&el<s.t1)||scenes[scenes.length-1];
+  const lt=(el-s.t0)/(s.t1-s.t0);
+  // caption
+  const sc=scenes.find(s2=>el>=s2.t0&&el<s2.t1);
+  if(sc&&cap.textContent!==sc.cap){cap.textContent=sc.cap;}
+  cap.style.opacity=sc?Math.min(1,lt*4)*(lt>.85?Math.max(0,(1-lt)/.15):1):0;
+  tli.style.width=(el/DUR*100)+'%';
+  const dot=(x,y,r,c)=>{g.beginPath();g.arc(x,y,r,0,7);g.fillStyle=c;g.fill();};
+  const idx=scenes.indexOf(s);
+  if(idx===0){ // dot appears, breathes
+    const r=40+Math.sin(lt*Math.PI*2)*6*ease(lt);
+    dot(cx,cy,20+r*ease(lt),'#f5f4f0');
+  }else if(idx===1){ // orbiting satellites: learning patterns
+    dot(cx,cy,50,'#f5f4f0');
+    for(let i=0;i<8;i++){const a=lt*4+i/8*Math.PI*2;
+      dot(cx+Math.cos(a)*180,cy+Math.sin(a)*180,10,'rgba(245,244,240,'+(0.25+0.5*Math.abs(Math.sin(a)))+')');}
+  }else if(idx===2){ // moon up, dot keeps pulsing while "house" sleeps
+    g.fillStyle='rgba(245,244,240,.08)';g.fillRect(0,0,W,W);
+    dot(880,180,70,'rgba(245,244,240,.9)');
+    g.fillStyle='#141414';g.beginPath();g.arc(850,160,66,0,7);g.fill();
+    const p=.5+.5*Math.sin(lt*Math.PI*8);
+    dot(cx,cy+120,30+p*14,'#f5f4f0');
+    g.strokeStyle='rgba(245,244,240,.35)';g.lineWidth=3;
+    for(let i=1;i<4;i++){g.beginPath();g.arc(cx,cy+120,40+p*14+i*46*ease(lt),0,7);g.globalAlpha=.35/p-i*.06;g.stroke();g.globalAlpha=1;}
+  }else if(idx===3){ // grid of slips; dot catches the red one
+    const n=6,cell=130,ox=(W-n*cell)/2+cell/2;
+    for(let i=0;i<n;i++)for(let j=0;j<n;j++){
+      const bx=ox+i*cell,by=ox+j*cell-60;
+      const isSlip=(i===4&&j===2);
+      dot(bx,by,16,isSlip?(lt<.5?'#e0483e':'#f5f4f0'):'rgba(245,244,240,.35)');
+    }
+    if(lt<.5){const px=ox+4*cell,py=ox? ox:0;
+      dot(ox+4*cell, ox+2*cell-60, 30+Math.sin(lt*20)*6,'rgba(224,72,62,.35)');}
+  }else if(idx===4){ // name it: letters typed
+    dot(cx,cy-140,44,'#f5f4f0');
+    const name='J U N O';
+    g.fillStyle='#f5f4f0';g.font='700 90px "Space Grotesk"';g.textAlign='center';
+    const chars=Math.floor(ease(lt)*name.length);
+    g.fillText(name.slice(0,chars),cx,cy+120);
+    if(chars<name.length&&Math.floor(lt*20)%2)g.fillRect(cx-160+chars*30,cy+140,18,6);
+  }else{ // finale: wordmark
+    const r=ease(lt)*1;
+    dot(cx,cy-40,54*r,'#f5f4f0');
+    g.fillStyle='#f5f4f0';g.font='300 64px "Space Grotesk"';g.textAlign='center';
+    g.globalAlpha=ease((lt-.3)/.5);
+    g.fillText('A L W A Y S   O N   I T .',cx,cy+130);
+    g.globalAlpha=1;
+  }
+  if(el<DUR)requestAnimationFrame(frame);
+  else{cap.style.opacity=0;document.getElementById('replay').classList.add('show');}
+}
+function go(){
+  document.getElementById('play').classList.add('hide');
+  document.getElementById('replay').classList.remove('show');
+  if(AC)AC.close();
+  score();start=null;requestAnimationFrame(frame);
+}
+document.getElementById('play').onclick=go;
+document.getElementById('replay').onclick=go;
+// idle poster
+g.fillStyle='#141414';g.fillRect(0,0,1080,1080);
+g.beginPath();g.arc(540,540,54,0,7);g.fillStyle='#f5f4f0';g.fill();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AXIOM-1 - scroll to explode</title>
+<meta name="description" content="A scroll-scrubbed assembled-to-exploded chip reveal. Built following the AI chip scroll-animation landing page guide - without the video, all CSS 3D.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#050505;color:#f2f2f2;font-family:-apple-system,Inter,Segoe UI,sans-serif;overflow-x:hidden}
+.scroll-space{height:500vh}
+.stage{position:fixed;inset:0;display:grid;place-items:center;perspective:1400px;background:radial-gradient(80% 60% at 50% 40%,#101418 0%,#050505 70%)}
+.chip3d{position:relative;width:min(340px,70vw);aspect-ratio:1;transform-style:preserve-3d}
+.layer{position:absolute;inset:0;border-radius:18px;transform-style:preserve-3d}
+.base{background:linear-gradient(145deg,#1c1f24,#0c0e11);border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 40px 90px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.06)}
+.substrate{background:linear-gradient(145deg,#232a30,#12161a);border:1px solid rgba(120,200,255,.15);inset:6%;border-radius:14px}
+.traces{inset:10%;border-radius:10px;background:
+  repeating-linear-gradient(0deg,transparent 0 14px,rgba(88,180,255,.16) 14px 15px),
+  repeating-linear-gradient(90deg,transparent 0 14px,rgba(88,180,255,.12) 14px 15px)}
+.die{inset:32%;border-radius:8px;background:linear-gradient(145deg,#2b3a4d,#101820);
+  box-shadow:0 0 40px rgba(88,180,255,.35), inset 0 0 18px rgba(88,180,255,.4)}
+.spreader{inset:22%;border-radius:12px;background:linear-gradient(145deg,#3a3f46,#1b1e22);border:1px solid rgba(255,255,255,.1)}
+.pins{display:grid;grid-template-columns:repeat(12,1fr);gap:6%;padding:4%;align-content:space-between}
+.pins i{aspect-ratio:1;background:linear-gradient(145deg,#d8b25e,#8a6a2b);border-radius:2px;box-shadow:0 0 6px rgba(216,178,94,.35)}
+.copy{position:fixed;left:0;right:0;text-align:center;pointer-events:none;padding:0 20px}
+.copy.top{top:7vh}
+.copy.bottom{bottom:7vh}
+h1{font-size:clamp(34px,6vw,72px);letter-spacing:.28em;font-weight:800}
+.eyebrow{font-size:11px;letter-spacing:.5em;color:#58b4ff;text-transform:uppercase;margin-bottom:14px}
+.step{font-size:clamp(15px,2vw,20px);color:rgba(242,242,242,.65);transition:opacity .3s}
+.spec{position:fixed;font-size:12px;letter-spacing:.2em;color:rgba(242,242,242,.55);text-transform:uppercase;opacity:0;transition:opacity .4s}
+.spec.l{left:6vw;top:40vh}.spec.r{right:6vw;top:52vh}
+.spec b{display:block;color:#f2f2f2;font-size:15px;letter-spacing:.05em;margin-bottom:4px}
+.progress{position:fixed;right:22px;top:50%;transform:translateY(-50%);height:180px;width:2px;background:rgba(255,255,255,.12)}
+.progress i{display:block;width:100%;background:#58b4ff;height:0}
+.guide-tag{position:fixed;bottom:16px;left:16px;z-index:60;font-size:10px;letter-spacing:.1em;color:rgba(242,242,242,.5);background:rgba(5,5,5,.7);border:1px solid rgba(242,242,242,.12);padding:8px 12px;border-radius:99px;backdrop-filter:blur(8px)}
+@media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="scroll-space"></div>
+<div class="stage">
+  <div class="chip3d" id="chip">
+    <div class="layer base" data-z="0"><div class="pins" id="pins"></div></div>
+    <div class="layer substrate" data-z="1"></div>
+    <div class="layer traces" data-z="2"></div>
+    <div class="layer spreader" data-z="3"></div>
+    <div class="layer die" data-z="4"></div>
+  </div>
+</div>
+<div class="copy top">
+  <div class="eyebrow">Neural processor</div>
+  <h1>AXIOM-1</h1>
+</div>
+<div class="copy bottom"><div class="step" id="step">Scroll to take it apart.</div></div>
+<div class="spec l" id="specL"><b>12B transistors</b>3nm gate-all-around</div>
+<div class="spec r" id="specR"><b>40 TOPS / watt</b>on-die SRAM fabric</div>
+<div class="progress"><i id="pi"></i></div>
+<div class="guide-tag">Built from guide 07 &middot; scroll-scrubbed exploded view, CSS 3D instead of video</div>
+<script>
+(function(){
+  const pins=document.getElementById('pins');
+  for(let i=0;i<144;i++)pins.appendChild(document.createElement('i'));
+  const layers=[...document.querySelectorAll('.layer')];
+  const steps=["Scroll to take it apart.","Substrate - the city grid.","Traces - 40 micrometre streets.","Heat spreader - the roof.","The die. This is where thought lives."];
+  const stepEl=document.getElementById('step'),pi=document.getElementById('pi');
+  const chip=document.getElementById('chip');
+  let cur=-1;
+  function onScroll(){
+    const max=document.body.scrollHeight-innerHeight;
+    const p=Math.min(1,Math.max(0,scrollY/max));
+    pi.style.height=(p*100)+'%';
+    const spread=Math.min(1,p*1.15);
+    layers.forEach(l=>{
+      const z=+l.dataset.z;
+      l.style.transform=`translateZ(${z*spread*90}px) translateY(${z*spread*-26}px)`;
+      l.style.opacity=1-spread*z*.04;
+    });
+    chip.style.transform=`rotateX(${58-spread*8}deg) rotateZ(${-32+p*24}deg)`;
+    const si=Math.min(steps.length-1,Math.floor(p*steps.length));
+    if(si!==cur){cur=si;stepEl.style.opacity=0;
+      setTimeout(()=>{stepEl.textContent=steps[si];stepEl.style.opacity=1;},220);}
+    document.getElementById('specL').style.opacity=p>.55?1:0;
+    document.getElementById('specR').style.opacity=p>.7?1:0;
+  }
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+})();
+</script>
+</body>
+</html>

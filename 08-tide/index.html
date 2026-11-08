@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TIDE - the harbour that wakes as you scroll</title>
+<meta name="description" content="A scroll-tied cinematic hero: the animation advances exactly with your scroll. Built following the Codex + Kling $15K motion-website guide, with procedural canvas frames instead of a generated video.">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,300&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0e14;color:#eef2f6;font-family:Inter,sans-serif;overflow-x:hidden}
+.serif{font-family:Fraunces,serif;font-weight:300}
+.scroll-space{height:400vh}
+.stage{position:fixed;inset:0}
+.stage canvas{width:100%;height:100%;display:block}
+.hero-copy{position:fixed;inset:0;display:grid;place-items:center;text-align:center;pointer-events:none}
+h1{font-size:clamp(54px,10vw,140px);font-weight:300;letter-spacing:.06em}
+.hero-copy p{letter-spacing:.45em;font-size:11px;text-transform:uppercase;color:rgba(238,242,246,.65);margin-top:14px}
+.scrollcue{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:rgba(238,242,246,.55);transition:opacity .4s}
+section{position:relative;z-index:2;background:#0a0e14;padding:clamp(80px,10vw,140px) 24px}
+.wrap{max-width:1040px;margin:0 auto}
+h2{font-size:clamp(30px,4.6vw,52px);font-weight:300;margin-bottom:26px}
+h2 em{font-family:Fraunces,serif;font-style:italic;color:#7fb2d9}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:40px;color:rgba(238,242,246,.6);line-height:1.85;font-size:15px}
+.hours{margin-top:30px;border-top:1px solid rgba(238,242,246,.1)}
+.hrow{display:flex;justify-content:space-between;padding:20px 0;border-bottom:1px solid rgba(238,242,246,.1);font-size:15px}
+.hrow span:last-child{color:rgba(238,242,246,.5)}
+footer{padding:50px 24px;text-align:center;color:rgba(238,242,246,.4);font-size:12px;letter-spacing:.2em;background:#0a0e14;position:relative;z-index:2}
+.guide-tag{position:fixed;bottom:16px;left:16px;z-index:60;font-size:10px;letter-spacing:.1em;color:rgba(238,242,246,.5);background:rgba(10,14,20,.7);border:1px solid rgba(238,242,246,.12);padding:8px 12px;border-radius:99px;backdrop-filter:blur(8px)}
+@media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="scroll-space" id="space"></div>
+<div class="stage"><canvas id="cv"></canvas></div>
+<div class="hero-copy" id="heroCopy">
+  <div><h1 class="serif">T I D E</h1><p id="phase">The harbour at 4 a.m.</p></div>
+</div>
+<div class="scrollcue" id="cue">Scroll - the morning follows you</div>
+
+<section id="below"><div class="wrap">
+  <h2>A caf&eacute; that opens <em>with the light.</em></h2>
+  <div class="cols">
+    <p>TIDE sits on the old fish quay. We pour the first coffee when the first boat comes in, and we close when the gulls give up. The menu is whatever the morning landed, written on the window in chalk.</p>
+    <p>No reservations, no Wi-Fi password, no rush. Twelve stools, one long counter, and a window that does what your scroll just did - every single day, whether anyone is watching or not.</p>
+  </div>
+  <div class="hours">
+    <div class="hrow"><span>First pot</span><span>when the boats come in (~05:40)</span></div>
+    <div class="hrow"><span>Kitchen</span><span>06:00 - 14:00</span></div>
+    <div class="hrow"><span>Chalk menu</span><span>whatever landed</span></div>
+    <div class="hrow"><span>Find us</span><span>the old fish quay, third lamp post</span></div>
+  </div>
+</div></section>
+<footer>TIDE &middot; a study build</footer>
+<div class="guide-tag">Built from guide 08 &middot; scroll = playback head, frames drawn in canvas</div>
+<script>
+(function(){
+  const cv=document.getElementById('cv'),g=cv.getContext('2d');
+  function size(){cv.width=innerWidth*devicePixelRatio;cv.height=innerHeight*devicePixelRatio;}
+  size();addEventListener('resize',size);
+  const lerp=(a,b,t)=>a+(b-a)*t;
+  function mix(c1,c2,t){return[lerp(c1[0],c2[0],t),lerp(c1[1],c2[1],t),lerp(c1[2],c2[2],t)];}
+  const css=c=>`rgb(${c[0]|0},${c[1]|0},${c[2]|0})`;
+  // night palette -> dawn palette
+  const N={sky1:[6,10,18],sky2:[16,24,38],sea1:[10,16,26],sea2:[6,10,16],sun:[244,246,255],win:[255,214,130]};
+  const D={sky1:[255,178,120],sky2:[126,178,217],sea1:[60,110,140],sea2:[30,60,90],sun:[255,214,140],win:[255,236,180]};
+  const phases=["The harbour at 4 a.m.","The nets come up.","First light on the water.","Coffee.","TIDE is open."];
+  let lastPhase=-1;
+  function draw(p){
+    const W=cv.width,H=cv.height;
+    // sky
+    const grd=g.createLinearGradient(0,0,0,H*.62);
+    grd.addColorStop(0,css(mix(N.sky1,D.sky1,p)));
+    grd.addColorStop(1,css(mix(N.sky2,D.sky2,p)));
+    g.fillStyle=grd;g.fillRect(0,0,W,H*.62);
+    // sun/moon rises with p
+    const sx=W*.72,sy=lerp(H*.5,H*.16,p);
+    g.beginPath();g.arc(sx,sy,W*.045,0,7);
+    g.fillStyle=css(mix(N.sun,D.sun,p));g.globalAlpha=.5+.5*p;g.fill();
+    g.globalAlpha=.14;g.beginPath();g.arc(sx,sy,W*.09,0,7);g.fill();g.globalAlpha=1;
+    // stars fade out
+    if(p<.5){g.fillStyle=`rgba(255,255,255,${.7*(1-p*2)})`;
+      for(let i=0;i<60;i++){g.fillRect((i*97)%W,(i*53)%(H*.5),2,2);}}
+    // sea
+    const sg=g.createLinearGradient(0,H*.62,0,H);
+    sg.addColorStop(0,css(mix(N.sea1,D.sea1,p)));
+    sg.addColorStop(1,css(mix(N.sea2,D.sea2,p)));
+    g.fillStyle=sg;g.fillRect(0,H*.62,W,H*.38);
+    // sun glitter path
+    g.fillStyle=css(mix(N.sun,D.sun,p));g.globalAlpha=.12+.3*p;
+    for(let i=0;i<14;i++){const y=H*.65+i*H*.024,w=Math.sin(i*1.7+p*9)*W*.02+W*.05*(1-i/16);
+      g.fillRect(sx-w/2,y,w,3);}
+    g.globalAlpha=1;
+    // quay silhouette
+    g.fillStyle=css(mix([8,10,14],[40,32,30],p));
+    g.fillRect(0,H*.56,W,H*.07);
+    // boats: masts
+    for(let i=0;i<5;i++){
+      const bx=W*(.1+.19*i),bh=H*(.1+.02*(i%3));
+      g.strokeStyle=css(mix([20,24,30],[70,58,50],p));g.lineWidth=Math.max(2,W*.002);
+      g.beginPath();g.moveTo(bx,H*.62);g.lineTo(bx,H*.62-bh);g.stroke();
+      g.beginPath();g.moveTo(bx-W*.02,H*.62);g.quadraticCurveTo(bx,H*.60,W*.02+bx,H*.62);g.fill();
+      // cabin windows light up early, fade at dawn
+      g.fillStyle=`rgba(${N.win[0]},${N.win[1]},${N.win[2]},${.9*(1-p)})`;
+      g.fillRect(bx-W*.008,H*.6,W*.012,W*.006);
+    }
+    // mist band lifts
+    g.fillStyle=`rgba(238,242,246,${.10*(1-p)})`;
+    g.fillRect(0,H*.58-30*p,W,H*.05);
+    // copy fade/phase
+    const ph=Math.min(phases.length-1,Math.floor(p*phases.length));
+    if(ph!==lastPhase){lastPhase=ph;
+      const pe=document.getElementById('phase');
+      pe.style.opacity=0;setTimeout(()=>{pe.textContent=phases[ph];pe.style.transition='opacity .5s';pe.style.opacity=1;},250);}
+    document.getElementById('heroCopy').style.opacity=p>.92?0:1;
+    document.getElementById('cue').style.opacity=p>.05?0:1;
+  }
+  function onScroll(){
+    const max=document.getElementById('space').offsetHeight-innerHeight;
+    draw(Math.min(1,Math.max(0,scrollY/max)));
+  }
+  addEventListener('scroll',onScroll,{passive:true});onScroll();
+})();
+</script>
+</body>
+</html>
