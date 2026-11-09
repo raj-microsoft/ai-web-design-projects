@@ -30,7 +30,7 @@ nav a:hover{color:var(--gold)}
 .hero h1 .ch{display:inline-block;transform:translateY(110%)}
 .hero p.sub{margin-top:30px;color:var(--dim);max-width:440px;font-size:15px;line-height:1.8;opacity:0}
 .bottle{margin:56px 0 0;opacity:0}
-.scroll-hint{position:absolute;bottom:34px;font-size:10px;letter-spacing:.4em;text-transform:uppercase;color:var(--dim);opacity:0}
+.scroll-hint{position:absolute;bottom:34px;font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--dim);opacity:0}
 section{padding:clamp(90px,11vw,160px) 0;border-top:1px solid var(--line)}
 .sec-head{display:flex;align-items:baseline;gap:26px;margin-bottom:70px}
 .sec-head .num{font-family:"Cormorant Garamond",serif;font-style:italic;color:var(--gold);font-size:20px}
@@ -47,11 +47,14 @@ section{padding:clamp(90px,11vw,160px) 0;border-top:1px solid var(--line)}
 .counter .lbl{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);margin-top:8px}
 .svggroup{display:flex;justify-content:center}
 footer{padding:60px 0;text-align:center;color:var(--dim);font-size:11px;letter-spacing:.3em;text-transform:uppercase;border-top:1px solid var(--line)}
-.guide-tag{position:fixed;bottom:16px;left:16px;z-index:60;font-size:10px;letter-spacing:.14em;color:var(--dim);background:rgba(14,13,11,.7);border:1px solid var(--line);padding:8px 12px;border-radius:99px;backdrop-filter:blur(8px)}
+.guide-tag{position:fixed;bottom:16px;left:16px;z-index:60;font-size:11px;letter-spacing:.14em;color:var(--dim);background:rgba(14,13,11,.7);border:1px solid var(--line);padding:8px 12px;border-radius:99px;backdrop-filter:blur(8px)}
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
   .hero h1 .ch{transform:none}.hero p.sub,.bottle,.scroll-hint,.reveal{opacity:1!important;transform:none!important}
 }
+.photo-product{width:min(360px,75vw);height:auto;aspect-ratio:1;object-fit:cover;margin-top:30px;border-radius:4px}.bottle{position:absolute;bottom:30px;right:5%;width:40px;height:74px;margin:0}.hero{padding:110px 24px 80px}.hero p.sub{color:#c2bbb0}@media(max-width:600px){nav ul{gap:12px}nav a{font-size:11px;letter-spacing:.08em}.logo{font-size:19px;letter-spacing:.18em}}
+.ai-credit{position:fixed;right:12px;bottom:12px;z-index:90;max-width:min(340px,calc(100vw - 24px));font:12px/1.5 system-ui,sans-serif;color:#f5f2ea;background:#171715;border:1px solid #76756d;border-radius:8px;padding:8px 12px}.ai-credit summary{cursor:pointer}.ai-credit p{padding:10px 0 2px;max-width:300px}.guide-tag{max-width:calc(100vw - 32px);line-height:1.5;bottom:58px;color:#d4d0c7;background:#171715;letter-spacing:.04em}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+footer{letter-spacing:.04em}.guide-tag{font-size:11px}.chip-photo figcaption{font-size:11px}footer{color:#aaa9a3}
 </style>
 </head>
 <body>
@@ -64,6 +67,7 @@ footer{padding:60px 0;text-align:center;color:var(--dim);font-size:11px;letter-s
   <div class="eyebrow reveal-none">Maison fondee a Grasse &middot; 1927</div>
   <h1 id="heroTitle" class="serif" aria-label="AURUM"></h1>
   <p class="sub" id="heroSub">Four essences, drawn from a single hectare of jasmine. Nothing else. Nothing louder.</p>
+<img class="photo-product" src="../assets/aurum-512.webp" srcset="../assets/aurum-320.webp 320w, ../assets/aurum-512.webp 512w" sizes="(max-width: 600px) 90vw, 512px" width="512" height="512" alt="AI-generated amber perfume bottle with jasmine on warm limestone" fetchpriority="high" decoding="async">
   <svg class="bottle" id="bottleSvg" width="120" height="220" viewBox="0 0 120 220" fill="none" aria-hidden="true">
     <path id="bottlePath" d="M50 10 h20 v18 h6 v22 c18 8 30 26 30 48 v90 a22 22 0 0 1 -22 22 h-48 a22 22 0 0 1 -22 -22 v-90 c0-22 12-40 30-48 v-22 h6 z" stroke="#c8a24e" stroke-width="1.5"/>
   </svg>
@@ -146,5 +150,6 @@ footer{padding:60px 0;text-align:center;color:var(--dim);font-size:11px;letter-s
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 })();
 </script>
+<details class="ai-credit"><summary>How this was made</summary><p>Images are AI-generated with ChatGPT image generation, not documentary photographs. Motion uses the original local CSS/JavaScript/canvas animation; no Gemini Veo video was used.</p></details>
 </body>
 </html>

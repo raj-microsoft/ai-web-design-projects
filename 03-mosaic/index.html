@@ -43,8 +43,11 @@ h2 em{font-family:Fraunces,serif;font-style:italic;font-weight:400;color:var(--a
 .cta p{color:rgba(255,255,255,.6);margin:0 auto 32px;max-width:440px;line-height:1.7}
 .cta .btn{background:var(--acc)}
 footer{padding:44px 0;text-align:center;color:var(--dim);font-size:12.5px}
-.guide-tag{position:fixed;bottom:16px;left:16px;z-index:60;font-size:10px;letter-spacing:.1em;color:var(--dim);background:rgba(250,249,246,.85);border:1px solid var(--line);padding:8px 12px;border-radius:99px;backdrop-filter:blur(8px)}
+.guide-tag{position:fixed;bottom:16px;left:16px;z-index:60;font-size:11px;letter-spacing:.1em;color:var(--dim);background:rgba(250,249,246,.85);border:1px solid var(--line);padding:8px 12px;border-radius:99px;backdrop-filter:blur(8px)}
 @media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}.pop{opacity:1!important;transform:none!important}}
+@media(max-width:480px){nav .wrap{gap:14px;flex-wrap:wrap}nav .btn{padding:10px 15px;font-size:12px}}
+.ai-credit{position:fixed;right:12px;bottom:12px;z-index:90;max-width:min(340px,calc(100vw - 24px));font:12px/1.5 system-ui,sans-serif;color:#f5f2ea;background:#171715;border:1px solid #76756d;border-radius:8px;padding:8px 12px}.ai-credit summary{cursor:pointer}.ai-credit p{padding:10px 0 2px;max-width:300px}.guide-tag{max-width:calc(100vw - 32px);line-height:1.5;bottom:58px;color:#d4d0c7;background:#171715;letter-spacing:.04em}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+footer{letter-spacing:.04em}.guide-tag{font-size:11px}.chip-photo figcaption{font-size:11px}:root{--dim:#625f59}
 </style>
 </head>
 <body>
@@ -98,11 +101,9 @@ footer{padding:44px 0;text-align:center;color:var(--dim);font-size:12.5px}
   for(let i=0;i<12;i++){
     const p=palettes[i%palettes.length],h=140+((i*53)%140);
     const t=document.createElement('div');t.className='tile';
-    t.innerHTML=`<div style="height:${h}px;background:
-      radial-gradient(120% 90% at ${20+(i*17)%60}% ${15+(i*23)%40}%, ${p[0]} 0%, transparent 60%),
-      radial-gradient(100% 100% at ${60+(i*13)%30}% ${70+(i*7)%25}%, ${p[1]} 0%, transparent 65%),
-      linear-gradient(${120+i*30}deg, ${p[2]}, ${p[1]})"></div>
-      <div class="cap">${caps[i]}</div>`;
+    const photoNames=['mosaic','mosaic','wadden','aurum','nocturne','mosaic','promptbook','wadden','forge','mosaic','axiom','orbit'];
+    const photoAlts=['Sunlit coastal interior','Pale oak and ceramics','Coastal grass and dunes','Amber glass and jasmine','Warm listening bar','Linen and ceramic textures','Cream notebook and pen','Dunes at dusk','Design workbench','Coastal room foliage','Silicon and copper detail','Planetarium under stars'];
+    t.innerHTML=`<img src="../assets/${photoNames[i]}-512.webp" srcset="../assets/${photoNames[i]}-320.webp 320w, ../assets/${photoNames[i]}-512.webp 512w" sizes="(max-width:600px) 90vw, 260px" width="512" height="512" loading="lazy" decoding="async" alt="AI-generated: ${photoAlts[i]}" style="display:block;width:100%;height:${h}px;object-fit:cover;object-position:${25+i*5}% center"><div class="cap">${caps[i]}</div>`;
     m.appendChild(t);
   }
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){io.unobserve(e.target);
@@ -113,5 +114,6 @@ footer{padding:44px 0;text-align:center;color:var(--dim);font-size:12.5px}
   document.querySelectorAll('.pop').forEach(el=>io.observe(el));
 })();
 </script>
+<details class="ai-credit"><summary>How this was made</summary><p>Images are AI-generated with ChatGPT image generation, not documentary photographs. Motion uses the original local CSS/JavaScript/canvas animation; no Gemini Veo video was used.</p></details>
 </body>
 </html>

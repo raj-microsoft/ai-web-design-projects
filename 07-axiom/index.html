@@ -34,14 +34,17 @@ h1{font-size:clamp(34px,6vw,72px);letter-spacing:.28em;font-weight:800}
 .spec b{display:block;color:#f2f2f2;font-size:15px;letter-spacing:.05em;margin-bottom:4px}
 .progress{position:fixed;right:22px;top:50%;transform:translateY(-50%);height:180px;width:2px;background:rgba(255,255,255,.12)}
 .progress i{display:block;width:100%;background:#58b4ff;height:0}
-.guide-tag{position:fixed;bottom:16px;left:16px;z-index:60;font-size:10px;letter-spacing:.1em;color:rgba(242,242,242,.5);background:rgba(5,5,5,.7);border:1px solid rgba(242,242,242,.12);padding:8px 12px;border-radius:99px;backdrop-filter:blur(8px)}
+.guide-tag{position:fixed;bottom:16px;left:16px;z-index:60;font-size:11px;letter-spacing:.1em;color:rgba(242,242,242,.5);background:rgba(5,5,5,.7);border:1px solid rgba(242,242,242,.12);padding:8px 12px;border-radius:99px;backdrop-filter:blur(8px)}
 @media(prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}}
+.chip-photo{position:absolute;left:5vw;bottom:12vh;width:min(23vw,300px)}.chip-photo img{width:100%;height:auto;border-radius:8px}.chip-photo figcaption{font-size:11px;color:#b5bec8;margin-top:8px}.spec{background:#050505d9;padding:10px}@media(max-width:700px){.chip-photo{width:95px;left:18px;bottom:15vh}.chip-photo figcaption{font-size:11px}.spec.l{top:29vh}.spec.r{top:70vh}}
+.ai-credit{position:fixed;right:12px;bottom:12px;z-index:90;max-width:min(340px,calc(100vw - 24px));font:12px/1.5 system-ui,sans-serif;color:#f5f2ea;background:#171715;border:1px solid #76756d;border-radius:8px;padding:8px 12px}.ai-credit summary{cursor:pointer}.ai-credit p{padding:10px 0 2px;max-width:300px}.guide-tag{max-width:calc(100vw - 32px);line-height:1.5;bottom:58px;color:#d4d0c7;background:#171715;letter-spacing:.04em}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+footer{letter-spacing:.04em}.guide-tag{font-size:11px}.chip-photo figcaption{font-size:11px}footer{color:#aaa9a3}
 </style>
 </head>
 <body>
 <div class="scroll-space"></div>
 <div class="stage">
-  <div class="chip3d" id="chip">
+  <figure class="chip-photo"><img class="" src="../assets/axiom-512.webp" srcset="../assets/axiom-320.webp 320w, ../assets/axiom-512.webp 512w" sizes="(max-width: 600px) 90vw, 512px" width="512" height="512" alt="AI-generated macro reference of silicon die and copper traces" fetchpriority="high" decoding="async"><figcaption>Material study &middot; AI-generated</figcaption></figure><div class="chip3d" id="chip">
     <div class="layer base" data-z="0"><div class="pins" id="pins"></div></div>
     <div class="layer substrate" data-z="1"></div>
     <div class="layer traces" data-z="2"></div>
@@ -87,5 +90,6 @@ h1{font-size:clamp(34px,6vw,72px);letter-spacing:.28em;font-weight:800}
   addEventListener('scroll',onScroll,{passive:true});onScroll();
 })();
 </script>
+<details class="ai-credit"><summary>How this was made</summary><p>Images are AI-generated with ChatGPT image generation, not documentary photographs. Motion uses the original local CSS/JavaScript/canvas animation; no Gemini Veo video was used.</p></details>
 </body>
 </html>

@@ -58,7 +58,7 @@ nav .wrap{display:flex;justify-content:space-between;align-items:center;height:6
 .pricing{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:56px}
 .tier{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:34px}
 .tier.hot{border-color:var(--lime);position:relative}
-.tier.hot::before{content:"MOST FORGED";position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--lime);color:#0A0A0A;font-size:10px;font-weight:700;letter-spacing:.2em;padding:5px 14px;border-radius:99px}
+.tier.hot::before{content:"MOST FORGED";position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--lime);color:#0A0A0A;font-size:11px;font-weight:700;letter-spacing:.2em;padding:5px 14px;border-radius:99px}
 .tier .price{font-size:44px;font-weight:600;margin:14px 0}
 .tier ul{list-style:none;margin:18px 0 26px;display:grid;gap:10px;color:var(--dim);font-size:14px}
 .tier ul li::before{content:"\2192 ";color:var(--lime)}
@@ -76,9 +76,12 @@ nav .wrap{display:flex;justify-content:space-between;align-items:center;height:6
 @keyframes mq{to{transform:translateX(-50%)}}
 .final{text-align:center}
 footer{padding:44px 0;text-align:center;color:var(--dim);font-size:12px;border-top:1px solid var(--border)}
-.guide-tag{position:fixed;bottom:16px;left:16px;z-index:60;font-size:10px;letter-spacing:.1em;color:var(--dim);background:rgba(10,10,10,.7);border:1px solid var(--border);padding:8px 12px;border-radius:99px;backdrop-filter:blur(8px)}
+.guide-tag{position:fixed;bottom:16px;left:16px;z-index:60;font-size:11px;letter-spacing:.1em;color:var(--dim);background:rgba(10,10,10,.7);border:1px solid var(--border);padding:8px 12px;border-radius:99px;backdrop-filter:blur(8px)}
 @media(max-width:860px){.bento{grid-template-columns:1fr 1fr}.step{grid-template-columns:1fr}.step:nth-child(even) .stxt{order:0}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+.template-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.3}.tile .tag,.tile h3{position:relative;text-shadow:0 2px 8px #000}.photo-step{overflow:hidden}.photo-step img{width:100%;height:100%;object-fit:cover}
+.ai-credit{position:fixed;right:12px;bottom:12px;z-index:90;max-width:min(340px,calc(100vw - 24px));font:12px/1.5 system-ui,sans-serif;color:#f5f2ea;background:#171715;border:1px solid #76756d;border-radius:8px;padding:8px 12px}.ai-credit summary{cursor:pointer}.ai-credit p{padding:10px 0 2px;max-width:300px}.guide-tag{max-width:calc(100vw - 32px);line-height:1.5;bottom:58px;color:#d4d0c7;background:#171715;letter-spacing:.04em}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+footer{letter-spacing:.04em}.guide-tag{font-size:11px}.chip-photo figcaption{font-size:11px}footer{color:#aaa9a3}
 </style>
 </head>
 <body>
@@ -105,11 +108,11 @@ footer{padding:44px 0;text-align:center;color:var(--dim);font-size:12px;border-t
   <div class="eyebrow">02 - How it works</div>
   <div class="steps">
     <div class="step"><div class="stxt"><div class="snum">1.</div><h2>Pick a silhouette</h2><p class="dim" style="margin-top:12px">Every template is a strong opinion about layout. Choose the opinion that matches yours.</p></div>
-      <div class="svis" style="background:linear-gradient(135deg,#151508,#0A0A0A),radial-gradient(50% 60% at 30% 40%,rgba(212,255,79,.14),transparent)"></div></div>
+      <div class="svis photo-step" style="background:linear-gradient(135deg,#151508,#0A0A0A),radial-gradient(50% 60% at 30% 40%,rgba(212,255,79,.14),transparent)"></div></div>
     <div class="step"><div class="stxt"><div class="snum">2.</div><h2>Swap the words</h2><p class="dim" style="margin-top:12px">The type scale, the spacing, the motion - already tuned. You only touch the story.</p></div>
-      <div class="svis" style="background:linear-gradient(225deg,#0d1508,#0A0A0A),radial-gradient(50% 60% at 70% 60%,rgba(212,255,79,.12),transparent)"></div></div>
+      <div class="svis photo-step" style="background:linear-gradient(225deg,#0d1508,#0A0A0A),radial-gradient(50% 60% at 70% 60%,rgba(212,255,79,.12),transparent)"></div></div>
     <div class="step"><div class="stxt"><div class="snum">3.</div><h2>Ship before lunch</h2><p class="dim" style="margin-top:12px">Static export, any host. Your site was done before your coffee went cold.</p></div>
-      <div class="svis" style="background:linear-gradient(180deg,#101206,#0A0A0A),radial-gradient(50% 60% at 50% 30%,rgba(212,255,79,.16),transparent)"></div></div>
+      <div class="svis photo-step" style="background:linear-gradient(180deg,#101206,#0A0A0A),radial-gradient(50% 60% at 50% 30%,rgba(212,255,79,.16),transparent)"></div></div>
   </div>
 </div></section>
 
@@ -166,8 +169,10 @@ tiles.forEach((t,i)=>{
   const d=document.createElement('div');
   d.className='tile'+(i===0?' t-wide t-tall':i===3?' t-wide':i===5?' t-tall':'');
   d.innerHTML=`<div class="tag">${t[0]}</div><h3>${t[1]}</h3><div class="bar"><i style="width:${t[2]}%"></i></div>`;
+  const photo=document.createElement("img");photo.src="../assets/forge-512.webp";photo.srcset="../assets/forge-320.webp 320w, ../assets/forge-512.webp 512w";photo.sizes="(max-width:600px) 45vw, 300px";photo.width=512;photo.height=512;photo.alt="AI-generated studio materials for "+t[1];photo.loading="lazy";photo.className="template-photo";d.prepend(photo);
   bento.appendChild(d);
 });
+document.querySelectorAll(".photo-step").forEach((el,i)=>{const names=["forge","promptbook","mosaic"];el.innerHTML=`<img src="../assets/${names[i]}-512.webp" srcset="../assets/${names[i]}-320.webp 320w, ../assets/${names[i]}-512.webp 512w" sizes="(max-width:600px) 90vw, 512px" width="512" height="512" loading="lazy" alt="AI-generated design process still life">`;});
 // marquee
 document.getElementById('mq').innerHTML=('FORTY TEMPLATES &middot; <em>zero blank pages</em> &middot; ').repeat(4);
 // faq
@@ -196,5 +201,6 @@ if(!reduced&&window.gsap&&window.ScrollTrigger){
 }
 })();
 </script>
+<details class="ai-credit"><summary>How this was made</summary><p>Images are AI-generated with ChatGPT image generation, not documentary photographs. Motion uses the original local CSS/JavaScript/canvas animation; no Gemini Veo video was used.</p></details>
 </body>
 </html>

@@ -7,7 +7,7 @@
 <meta name="description" content="A tiny curated prompt library with copy buttons. Built following the Budarina prompt-collection guide: categories, one-liners, copy and go.">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f4f1ea;--ink:#1c1a15;--dim:rgba(28,26,21,.6);--acc:#b5441f;--card:#fbf9f4;--line:rgba(28,26,21,.12)}
+:root{--bg:#f4f1ea;--ink:#1c1a15;--dim:#625f58;--acc:#b5441f;--card:#fbf9f4;--line:rgba(28,26,21,.12)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:Inter,sans-serif}
 .wrap{max-width:860px;margin:0 auto;padding:0 24px}
@@ -29,7 +29,10 @@ header p{color:var(--dim);margin-top:14px}
 .copy{margin-top:12px;border:1px solid var(--ink);background:var(--ink);color:var(--bg);border-radius:99px;padding:9px 22px;font:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:all .25s}
 .copy.done{background:var(--acc);border-color:var(--acc)}
 footer{text-align:center;padding:36px;color:var(--dim);font-size:12px;letter-spacing:.15em;border-top:1px solid var(--line)}
-.guide-tag{position:fixed;bottom:16px;left:16px;z-index:60;font-size:10px;letter-spacing:.1em;color:var(--dim);background:rgba(244,241,234,.85);border:1px solid var(--line);padding:8px 12px;border-radius:99px;backdrop-filter:blur(8px)}
+.guide-tag{position:fixed;bottom:16px;left:16px;z-index:60;font-size:11px;letter-spacing:.1em;color:var(--dim);background:rgba(244,241,234,.85);border:1px solid var(--line);padding:8px 12px;border-radius:99px;backdrop-filter:blur(8px)}
+.notebook-photo{width:100%;height:180px;object-fit:cover;object-position:center 55%;margin-top:28px;border-radius:8px}.p pre{overflow-wrap:anywhere}
+.ai-credit{position:fixed;right:12px;bottom:12px;z-index:90;max-width:min(340px,calc(100vw - 24px));font:12px/1.5 system-ui,sans-serif;color:#f5f2ea;background:#171715;border:1px solid #76756d;border-radius:8px;padding:8px 12px}.ai-credit summary{cursor:pointer}.ai-credit p{padding:10px 0 2px;max-width:300px}.guide-tag{max-width:calc(100vw - 32px);line-height:1.5;bottom:58px;color:#d4d0c7;background:#171715;letter-spacing:.04em}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+footer{letter-spacing:.04em}.guide-tag{font-size:11px}.chip-photo figcaption{font-size:11px}
 </style>
 </head>
 <body>
@@ -37,6 +40,7 @@ footer{text-align:center;padding:36px;color:var(--dim);font-size:12px;letter-spa
 <header>
   <h1>PROMPT<em>BOOK</em></h1>
   <p>Twelve prompts that survived contact with real projects. Copy, paste, keep the good ones.</p>
+<img class="notebook-photo" src="../assets/promptbook-512.webp" srcset="../assets/promptbook-320.webp 320w, ../assets/promptbook-512.webp 512w" sizes="(max-width: 600px) 90vw, 512px" width="512" height="512" alt="AI-generated blank cream notebook and fountain pen in sunlight" fetchpriority="high" decoding="async">
   <div class="cats" id="cats"></div>
 </header>
 <div class="plist" id="plist"></div>
@@ -84,5 +88,6 @@ function render(cat){
 render('all');
 })();
 </script>
+<details class="ai-credit"><summary>How this was made</summary><p>Images are AI-generated with ChatGPT image generation, not documentary photographs. Motion uses the original local CSS/JavaScript/canvas animation; no Gemini Veo video was used.</p></details>
 </body>
 </html>

@@ -21,6 +21,8 @@ a.card:hover{border-color:#d4ff4f;transform:translateY(-2px)}
 .soon{opacity:.4;pointer-events:none}
 .soon .arrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase}
 footer{margin-top:64px;font-size:12px;color:rgba(250,250,250,.35)}
+.thumb{width:140px;height:112px;object-fit:cover;border-radius:6px;flex-shrink:0}.card p{color:#b4b4ac}.sub{color:#b4b4ac}@media(max-width:600px){a.card{padding:14px;gap:12px;flex-wrap:wrap}.thumb{width:84px;height:84px}.card>span:nth-of-type(2){flex:1;min-width:160px}.card .num{display:none}.arrow{display:none}.card h2{font-size:15px}.card p{font-size:12px}.wrap{padding:48px 18px}}
+footer{letter-spacing:.04em}.guide-tag{font-size:11px}.chip-photo figcaption{font-size:11px}footer{color:#aaa9a3}
 </style>
 </head>
 <body>
@@ -28,7 +30,7 @@ footer{margin-top:64px;font-size:12px;color:rgba(250,250,250,.35)}
 <h1>Twelve guides. Twelve builds.</h1>
 <p class="sub">Every project here follows one guide from my <a href="https://raj-microsoft.github.io/ai-web-design-library/">AI web design library</a> - same techniques, my own concepts. Each lives on its own path.</p>
 <div class="grid" id="grid"></div>
-<footer>Built on GitHub Pages. Source: <a style="color:rgba(250,250,250,.55)" href="https://github.com/raj-microsoft/ai-web-design-projects">github.com/raj-microsoft/ai-web-design-projects</a></footer>
+<footer><p style="margin-bottom:16px">All twelve concept thumbnails are AI-generated with ChatGPT image generation. DOT and SEVEN STYLES retain their deliberately stylised animations.</p>Built on GitHub Pages. Source: <a style="color:rgba(250,250,250,.55)" href="https://github.com/raj-microsoft/ai-web-design-projects">github.com/raj-microsoft/ai-web-design-projects</a></footer>
 </div>
 <script>
 const P=[
@@ -46,7 +48,7 @@ const P=[
 ["12","GRIMHAVEN - A Dark Fantasy Theme","Guide 24: Divya-style themed world, original IP","12-grimhaven/",true]
 ];
 document.getElementById('grid').innerHTML=P.map(p=>
-`<a class="card ${p[4]?'':'soon'}" href="${p[4]?p[3]:'#'}"><span class="num">${p[0]}</span><span><h2>${p[1]}</h2><p>${p[2]}</p></span><span class="arrow">${p[4]?'&rarr;':'soon'}</span></a>`).join('');
+`<a class="card ${p[4]?'':'soon'}" href="${p[4]?p[3]:'#'}"><img class="thumb" src="assets/${p[0]==="09"?"seven-styles":p[3].slice(3,-1)}-320.webp" srcset="assets/${p[0]==="09"?"seven-styles":p[3].slice(3,-1)}-320.webp 320w, assets/${p[0]==="09"?"seven-styles":p[3].slice(3,-1)}-512.webp 512w" sizes="(max-width:600px) 84px, 140px" width="512" height="512" loading="lazy" alt="AI-generated concept photograph for ${p[1]}"><span class="num">${p[0]}</span><span><h2>${p[1]}</h2><p>${p[2]}</p></span><span class="arrow">${p[4]?'&rarr;':'soon'}</span></a>`).join('');
 </script>
 </body>
 </html>

@@ -22,7 +22,9 @@ canvas{width:min(92vw,640px);aspect-ratio:1;border-radius:14px;background:#14141
 .tl i{display:block;height:100%;background:#f5f4f0;width:0}
 .replay{position:fixed;top:24px;right:24px;background:none;border:1px solid rgba(245,244,240,.3);color:#f5f4f0;border-radius:99px;padding:10px 22px;font-family:inherit;font-size:12px;letter-spacing:.2em;cursor:pointer;opacity:0;transition:opacity .4s}
 .replay.show{opacity:1}
-.guide-tag{position:fixed;top:16px;left:16px;z-index:11;font-size:10px;letter-spacing:.1em;color:rgba(245,244,240,.5);background:rgba(12,12,12,.6);border:1px solid rgba(245,244,240,.15);padding:8px 12px;border-radius:99px}
+.guide-tag{position:fixed;top:16px;left:16px;z-index:11;font-size:11px;letter-spacing:.1em;color:rgba(245,244,240,.5);background:rgba(12,12,12,.6);border:1px solid rgba(245,244,240,.15);padding:8px 12px;border-radius:99px}
+.ai-credit{position:fixed;right:12px;bottom:12px;z-index:90;max-width:min(340px,calc(100vw - 24px));font:12px/1.5 system-ui,sans-serif;color:#f5f2ea;background:#171715;border:1px solid #76756d;border-radius:8px;padding:8px 12px}.ai-credit summary{cursor:pointer}.ai-credit p{padding:10px 0 2px;max-width:300px}.guide-tag{max-width:calc(100vw - 32px);line-height:1.5;bottom:58px;color:#d4d0c7;background:#171715;letter-spacing:.04em}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+footer{letter-spacing:.04em}.guide-tag{font-size:11px}.chip-photo figcaption{font-size:11px}footer{color:#aaa9a3}.guide-tag{bottom:auto;top:16px;right:110px}.replay{right:12px}
 </style>
 </head>
 <body>
@@ -141,5 +143,6 @@ g.fillStyle='#141414';g.fillRect(0,0,1080,1080);
 g.beginPath();g.arc(540,540,54,0,7);g.fillStyle='#f5f4f0';g.fill();
 })();
 </script>
+<details class="ai-credit"><summary>How this was made</summary><p>This build deliberately retains its guide&#8217;s code-drawn visual style. Its hub thumbnail is AI-generated with ChatGPT image generation. No photographic imagery or generated video was added to the animation.</p></details>
 </body>
 </html>
